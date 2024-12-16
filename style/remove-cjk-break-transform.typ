@@ -15,16 +15,16 @@
   }
   import "../lib.typ": *
   let remove-cjk-break(rest) = {
+    rest = transform-childs(rest, remove-cjk-break)
     if is-sequence(rest) {
       let last-a = none
       let last-b = none
       for item in rest.children {
         if last-b == [ ] {
-          if ends-with-cjk(last-a) and start-with-cjk(item) {
+          if ends-with-cjk(last-a) or start-with-cjk(item) {
             last-b = []
           }
         }
-        item = transform-childs(item, remove-cjk-break)
         last-a
         last-a = last-b
         last-b = item
@@ -32,7 +32,7 @@
       last-a
       last-b
     } else {
-      transform-childs(rest, remove-cjk-break)
+      rest
     }
   }
 
