@@ -14,11 +14,18 @@
   } else if rest.has("body") {
     let fields = rest.fields()
     let body = func(fields.remove("body"))
-    if rest.has("label") {
-      let labe = fields.remove("label")
-      [#rest.func()(body, ..fields)#labe]
+    let labe = fields.remove("label", default: none)
+    let alignment = fields.remove("alignment", default: none)
+
+    let unlabeled = if (rest.has("alignment")) {
+      rest.func()(alignment, body, ..fields)
     } else {
       rest.func()(body, ..fields)
+    }
+    if rest.has("label") {
+      [#rest.func()(body, ..fields)#labe]
+    } else {
+      unlabeled
     }
   } else if rest.has("children") {
     let fields = rest.fields()
