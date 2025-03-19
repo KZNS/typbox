@@ -16,9 +16,12 @@
     let body = func(fields.remove("body"))
     let labe = fields.remove("label", default: none)
     let alignment = fields.remove("alignment", default: none)
+    let supplement = fields.remove("supplement", default: none)
 
     let unlabeled = if (rest.has("alignment")) {
       rest.func()(alignment, body, ..fields)
+    } else if (rest.func() == figure) {
+      rest.func()(body, supplement: supplement, ..fields)
     } else {
       rest.func()(body, ..fields)
     }
