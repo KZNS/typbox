@@ -16,7 +16,7 @@
     let body = func(fields.remove("body"))
     let labe = fields.remove("label", default: none)
     let alignment = fields.remove("alignment", default: none)
-    let supplement = fields.remove("supplement", default: none)
+    let supplement = fields.remove("supplement", default: auto)
 
     let unlabeled = if (rest.has("alignment")) {
       rest.func()(alignment, body, ..fields)
@@ -26,7 +26,7 @@
       rest.func()(body, ..fields)
     }
     if rest.has("label") {
-      [#rest.func()(body, ..fields)#labe]
+      [#unlabeled#labe]
     } else {
       unlabeled
     }
